@@ -14,12 +14,19 @@ import AddCourse from './pages/educator/AddCourse';
 import MyCourses from './pages/educator/MyCourses';
 import StudentEnrolled from './pages/educator/StudentEnrolled';
 import Navbar from './components/student/Navbar';
+import "quill/dist/quill.snow.css";
 
 const App = () => {
   const isEducatorRoute = useMatch('/educator/*');
+  const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+  if (!clerkKey) {
+    console.error('❌ Clerk publishable key is missing! Check your .env files.');
+    console.error('Make sure VITE_CLERK_PUBLISHABLE_KEY is set in .env or .env.development');
+  }
 
   return (
-    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
+    <ClerkProvider publishableKey={clerkKey}>
       <div className='text-default min-h-screen bg-white'>
         {!isEducatorRoute && <Navbar />}
         <Routes>
